@@ -1,0 +1,8 @@
+spring:
+  profiles:
+    active: dev
+
+security:
+  jwt:
+    secret: FrtEO61Jp5njmhIDOGBpebkZV6LN63nOYLwQ05Ya16K
+    expiration: 3600000
