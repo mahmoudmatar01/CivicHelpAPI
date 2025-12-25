@@ -2,6 +2,7 @@ package org.civichelpapi.civichelpapi.report.controller;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.civichelpapi.civichelpapi.auth.security.CustomUserDetails;
 import org.civichelpapi.civichelpapi.report.dto.request.ReportRequest;
 import org.civichelpapi.civichelpapi.report.service.CitizenReportService;
 import org.civichelpapi.civichelpapi.report.service.ReportService;
@@ -9,7 +10,11 @@ import org.civichelpapi.civichelpapi.shared.model.ApiResponse;
 import org.civichelpapi.civichelpapi.shared.service.JwtUtil;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Objects;
 
 @RestController
 @RequestMapping("/api/citizen/reports")
@@ -19,31 +24,34 @@ public class CitizenReportController {
 
     private final CitizenReportService service;
     private final ReportService reportService;
-    private final JwtUtil jwtUtil;
+
 
     @PostMapping
     public ResponseEntity<?> createReport(@RequestBody @Valid ReportRequest request) {
+        Long userId = JwtUtil.getUserIdFromContext();
 
         return ResponseEntity.ok(
                 ApiResponse.success(
-                        reportService.createReport(jwtUtil.getUserIdFromContext(), request))
+                        reportService.createReport(userId, request))
         );
     }
 
     @GetMapping("/my")
     public ResponseEntity<?> getMyReports() {
+        Long userId = JwtUtil.getUserIdFromContext();
+
         return ResponseEntity.ok(
                 ApiResponse.success(
-                        reportService.getCitizenReports(jwtUtil.getUserIdFromContext()))
+                        reportService.getCitizenReports(userId))
         );
     }
 
     @PostMapping("/{id}/close")
     public ApiResponse<?> closeReport(@PathVariable Long id) {
+        Long userId = JwtUtil.getUserIdFromContext();
 
-        Long citizenId = jwtUtil.getUserIdFromContext();
         return ApiResponse.success(
-                service.closeReport(id, citizenId)
+                service.closeReport(id, userId)
         );
     }
 }

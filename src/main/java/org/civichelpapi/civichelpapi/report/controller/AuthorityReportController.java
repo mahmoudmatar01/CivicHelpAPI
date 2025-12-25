@@ -15,17 +15,16 @@ import org.springframework.web.bind.annotation.*;
 public class AuthorityReportController {
 
     private final AuthorityReportService service;
-    private final JwtUtil jwtUtil;
 
     @PostMapping("/{id}/assign")
     public ApiResponse<?> assign(@PathVariable Long id) {
-        Long authorityId = jwtUtil.getUserIdFromContext();
+        Long authorityId = JwtUtil.getUserIdFromContext();
         return ApiResponse.success(service.assignReport(id, authorityId));
     }
 
     @PostMapping("/{id}/start")
     public ApiResponse<?> start(@PathVariable Long id) {
-        Long authorityId = jwtUtil.getUserIdFromContext();
+        Long authorityId = JwtUtil.getUserIdFromContext();
         return ApiResponse.success(service.startProgress(id, authorityId));
     }
 
@@ -34,7 +33,7 @@ public class AuthorityReportController {
             @PathVariable Long id,
             @RequestBody ResolutionRequest request) {
 
-        Long authorityId = jwtUtil.getUserIdFromContext();
+        Long authorityId = JwtUtil.getUserIdFromContext();
         return ApiResponse.success(
                 service.resolveReport(id, authorityId, request.note()));
     }

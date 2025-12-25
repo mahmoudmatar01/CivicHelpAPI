@@ -1,19 +1,22 @@
 package org.civichelpapi.civichelpapi.shared.service;
 
+import org.civichelpapi.civichelpapi.auth.security.CustomUserDetails;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Service;
+
+import java.util.Objects;
 
 
-@Service
 public class JwtUtil {
 
-    public Long getUserIdFromContext() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication == null || authentication.getName() == null) {
-            throw new IllegalStateException("Cannot get authenticated user");
-        }
-        return Long.valueOf(authentication.getName());
+    public static Long getUserIdFromContext() {
+        Authentication authentication =
+                SecurityContextHolder.getContext().getAuthentication();
+
+        CustomUserDetails user =
+                (CustomUserDetails) Objects.requireNonNull(authentication).getPrincipal();
+
+        return Objects.requireNonNull(user).getUserId();
     }
 
 }

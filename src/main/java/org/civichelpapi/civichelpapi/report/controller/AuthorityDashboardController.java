@@ -1,7 +1,6 @@
 package org.civichelpapi.civichelpapi.report.controller;
 import lombok.RequiredArgsConstructor;
-import org.civichelpapi.civichelpapi.report.dto.response.ReportResponse;
-import org.civichelpapi.civichelpapi.report.entity.Report;
+import org.civichelpapi.civichelpapi.report.helper.ReportHelper;
 import org.civichelpapi.civichelpapi.report.service.AuthorityDashboardService;
 import org.civichelpapi.civichelpapi.shared.service.JwtUtil;
 import org.springframework.data.domain.Pageable;
@@ -18,16 +17,15 @@ import org.springframework.web.bind.annotation.RestController;
 public class AuthorityDashboardController {
 
     private final AuthorityDashboardService dashboardService;
-    private final JwtUtil jwtUtil;
 
     @GetMapping("/assigned")
     public ResponseEntity<?> myAssignedReports(
             Pageable pageable
     ) {
-        Long authorityId = jwtUtil.getUserIdFromContext();
+        Long authorityId = JwtUtil.getUserIdFromContext();
         return ResponseEntity.ok(
                 dashboardService.getMyAssignedReports(authorityId, pageable)
-                        .map(this::map)
+                        .map(ReportHelper::toReportResponse)
         );
     }
 
@@ -35,25 +33,11 @@ public class AuthorityDashboardController {
     public ResponseEntity<?> unresolvedInMyCity(
             Pageable pageable
     ) {
-        Long authorityId = jwtUtil.getUserIdFromContext();
+        Long authorityId = JwtUtil.getUserIdFromContext();
         return ResponseEntity.ok(
                 dashboardService.getUnresolvedReportsInMyCity(authorityId, pageable)
-                        .map(this::map)
+                        .map(ReportHelper::toReportResponse)
         );
     }
 
-    private ReportResponse map(Report r) {
-        return new ReportResponse(
-                r.getId(),
-                r.getCategory().getName(),
-                r.getDistrict().getName(),
-                r.getDistrict().getCity().getName(),
-                r.getDistrict().getCity().getGovernorate().getName(),
-                r.getDescription(),
-                r.getImageUrls(),
-                r.getStatus().name(),
-                r.getPriority().name(),
-                r.getCreatedAt()
-        );
-    }
 }

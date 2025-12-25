@@ -38,8 +38,8 @@ public class Report extends BaseEntity {
     @Column(nullable = false, length = 1000)
     private String description;
 
-    @ElementCollection
-    private List<String> imageUrls;
+//    @ElementCollection
+//    private List<String> imageUrls;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)

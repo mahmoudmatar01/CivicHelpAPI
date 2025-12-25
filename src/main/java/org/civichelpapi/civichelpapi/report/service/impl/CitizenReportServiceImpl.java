@@ -61,7 +61,7 @@ public class CitizenReportServiceImpl implements CitizenReportService, ReportSer
         report.setCategory(category);
         report.setDistrict(district);
         report.setDescription(request.description());
-        report.setImageUrls(request.imagesUrl());
+//        report.setImageUrls(request.imagesUrl());
         report.setStatus(Status.OPEN);
         report.setPriority(category.getDefaultPriority());
         report.setSlaDeadline(LocalDateTime.now().plusHours(category.getSlaHours()));
