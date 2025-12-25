@@ -1,5 +1,7 @@
-package org.civichelpapi.civichelpapi.exception;
+package org.civichelpapi.civichelpapi.exception.global;
 
+import org.civichelpapi.civichelpapi.exception.BusinessException;
+import org.civichelpapi.civichelpapi.exception.NotFoundException;
 import org.civichelpapi.civichelpapi.shared.model.ApiResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,6 +30,12 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ApiResponse<?>> handleAccessDenied(AccessDeniedException ex) {
         return ResponseEntity.status(HttpStatus.FORBIDDEN)
                 .body(ApiResponse.error("You are not authorized to access this resource"));
+    }
+
+    @ExceptionHandler(IllegalStateException.class)
+    public ResponseEntity<ApiResponse<?>> handleIllegalState(IllegalStateException ex) {
+        return ResponseEntity.status(HttpStatus.BAD_GATEWAY)
+                .body(ApiResponse.error(ex.getMessage()));
     }
 
     @ExceptionHandler(Exception.class)
