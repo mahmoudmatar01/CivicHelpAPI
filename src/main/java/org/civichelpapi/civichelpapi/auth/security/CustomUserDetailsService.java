@@ -1,6 +1,6 @@
 package org.civichelpapi.civichelpapi.auth.security;
 
-import org.civichelpapi.civichelpapi.user.domain.User;
+import org.civichelpapi.civichelpapi.user.entity.User;
 import org.civichelpapi.civichelpapi.user.repository.UserRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

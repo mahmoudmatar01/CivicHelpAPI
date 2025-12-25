@@ -1,8 +1,8 @@
-package org.civichelpapi.civichelpapi.location.domain;
+package org.civichelpapi.civichelpapi.location.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.civichelpapi.civichelpapi.shared.domain.BaseEntity;
+import org.civichelpapi.civichelpapi.shared.entity.BaseEntity;
 import org.hibernate.proxy.HibernateProxy;
 
 import java.util.ArrayList;
@@ -10,27 +10,37 @@ import java.util.List;
 import java.util.Objects;
 
 @Entity
-@Table(name = "governorates")
+@Table(
+        name = "cities",
+        uniqueConstraints = {
+                @UniqueConstraint(columnNames = {"name", "governorate_id"})
+        }
+)
 @Getter
 @Setter
 @ToString
 @RequiredArgsConstructor
-public class Governorate extends BaseEntity {
+public class City extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private String name;
 
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @JoinColumn(name = "governorate_id")
+    @ToString.Exclude
+    private Governorate governorate;
+
     @OneToMany(
-            mappedBy = "governorate",
+            mappedBy = "city",
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )
     @ToString.Exclude
-    private List<City> cities = new ArrayList<>();
+    private List<District> districts = new ArrayList<>();
 
     @Override
     public final boolean equals(Object o) {
@@ -39,8 +49,8 @@ public class Governorate extends BaseEntity {
         Class<?> oEffectiveClass = o instanceof HibernateProxy ? ((HibernateProxy) o).getHibernateLazyInitializer().getPersistentClass() : o.getClass();
         Class<?> thisEffectiveClass = this instanceof HibernateProxy ? ((HibernateProxy) this).getHibernateLazyInitializer().getPersistentClass() : this.getClass();
         if (thisEffectiveClass != oEffectiveClass) return false;
-        Governorate that = (Governorate) o;
-        return getId() != null && Objects.equals(getId(), that.getId());
+        City city = (City) o;
+        return getId() != null && Objects.equals(getId(), city.getId());
     }
 
     @Override

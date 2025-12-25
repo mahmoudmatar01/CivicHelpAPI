@@ -1,6 +1,6 @@
 package org.civichelpapi.civichelpapi.location.reposirory;
 
-import org.civichelpapi.civichelpapi.location.domain.Governorate;
+import org.civichelpapi.civichelpapi.location.entity.Governorate;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

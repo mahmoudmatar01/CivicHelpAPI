@@ -1,4 +1,4 @@
-package org.civichelpapi.civichelpapi.shared.domain;
+package org.civichelpapi.civichelpapi.shared.entity;
 
 import jakarta.persistence.*;
 import org.springframework.data.annotation.CreatedDate;

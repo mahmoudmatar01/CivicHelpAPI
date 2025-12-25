@@ -1,52 +1,36 @@
-package org.civichelpapi.civichelpapi.user.domain;
+package org.civichelpapi.civichelpapi.location.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.civichelpapi.civichelpapi.location.domain.City;
-import org.civichelpapi.civichelpapi.location.domain.District;
-import org.civichelpapi.civichelpapi.location.domain.Governorate;
-import org.civichelpapi.civichelpapi.shared.domain.BaseEntity;
-import org.civichelpapi.civichelpapi.user.enums.Role;
+import org.civichelpapi.civichelpapi.shared.entity.BaseEntity;
 import org.hibernate.proxy.HibernateProxy;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
-@Table(name = "users")
+@Table(name = "governorates")
 @Getter
 @Setter
 @ToString
 @RequiredArgsConstructor
-public class User extends BaseEntity {
+public class Governorate extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    @Column(nullable = false)
-    private String fullName;
+    private Integer id;
 
     @Column(nullable = false, unique = true)
-    private String email;
+    private String name;
 
-    @Column(nullable = false)
-    private String password;
-
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private Role role;
-
-    @Column(nullable = false)
-    private boolean enabled = true;
-
-    @ManyToOne
-    private Governorate governorate;
-
-    @ManyToOne
-    private City city;
-
-    @ManyToOne
-    private District district;
+    @OneToMany(
+            mappedBy = "governorate",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    @ToString.Exclude
+    private List<City> cities = new ArrayList<>();
 
     @Override
     public final boolean equals(Object o) {
@@ -55,8 +39,8 @@ public class User extends BaseEntity {
         Class<?> oEffectiveClass = o instanceof HibernateProxy ? ((HibernateProxy) o).getHibernateLazyInitializer().getPersistentClass() : o.getClass();
         Class<?> thisEffectiveClass = this instanceof HibernateProxy ? ((HibernateProxy) this).getHibernateLazyInitializer().getPersistentClass() : this.getClass();
         if (thisEffectiveClass != oEffectiveClass) return false;
-        User user = (User) o;
-        return getId() != null && Objects.equals(getId(), user.getId());
+        Governorate that = (Governorate) o;
+        return getId() != null && Objects.equals(getId(), that.getId());
     }
 
     @Override

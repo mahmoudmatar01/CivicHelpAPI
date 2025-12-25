@@ -1,8 +1,8 @@
-package org.civichelpapi.civichelpapi.location.domain;
+package org.civichelpapi.civichelpapi.location.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.civichelpapi.civichelpapi.shared.domain.BaseEntity;
+import org.civichelpapi.civichelpapi.shared.entity.BaseEntity;
 import org.hibernate.proxy.HibernateProxy;
 
 import java.util.Objects;

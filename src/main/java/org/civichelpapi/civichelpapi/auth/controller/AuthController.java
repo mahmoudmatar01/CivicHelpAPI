@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.civichelpapi.civichelpapi.auth.dto.request.LoginRequest;
 import org.civichelpapi.civichelpapi.auth.dto.request.RegisterRequest;
 import org.civichelpapi.civichelpapi.auth.dto.response.AuthResponse;
-import org.civichelpapi.civichelpapi.auth.service.AuthService;
+import org.civichelpapi.civichelpapi.auth.service.impl.AuthServiceImpl;
 import org.civichelpapi.civichelpapi.shared.model.ApiResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class AuthController {
 
-    private final AuthService authService;
+    private final AuthServiceImpl authService;
 
     @PostMapping("/register")
     public ResponseEntity<?> register(

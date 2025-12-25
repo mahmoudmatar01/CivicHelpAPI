@@ -1,6 +1,6 @@
 package org.civichelpapi.civichelpapi.location.reposirory;
 
-import org.civichelpapi.civichelpapi.location.domain.City;
+import org.civichelpapi.civichelpapi.location.entity.City;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
