@@ -19,6 +19,7 @@ import org.civichelpapi.civichelpapi.user.entity.User;
 import org.civichelpapi.civichelpapi.user.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.civichelpapi.civichelpapi.report.helper.ReportHelper.toReportResponse;
@@ -56,6 +57,8 @@ public class CitizenReportServiceImpl implements CitizenReportService, ReportSer
         report.setImageUrls(request.imagesUrl());
         report.setStatus(Status.OPEN);
         report.setPriority(category.getDefaultPriority());
+        report.setSlaDeadline(LocalDateTime.now().plusHours(category.getSlaHours()));
+
 
         return toReportResponse(reportRepository.save(report));
 

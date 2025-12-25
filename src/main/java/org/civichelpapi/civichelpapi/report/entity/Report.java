@@ -18,7 +18,6 @@ import java.util.Objects;
 @Table(name = "reports")
 @Getter
 @Setter
-@ToString
 @RequiredArgsConstructor
 public class Report extends BaseEntity {
 
@@ -60,6 +59,11 @@ public class Report extends BaseEntity {
     private String rejectionReason;
 
     private LocalDateTime resolvedAt;
+
+    private boolean slaBreached = false;
+
+    private LocalDateTime slaDeadline;
+
 
     @Override
     public final boolean equals(Object o) {
