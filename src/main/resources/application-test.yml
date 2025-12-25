@@ -1,6 +1,11 @@
 spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/CivicHelpTestDB
+    driver-class-name: org.postgresql.Driver
+    username: postgres
+    password: matar
+
   jpa:
     hibernate:
       ddl-auto: create-drop
+    show-sql: true

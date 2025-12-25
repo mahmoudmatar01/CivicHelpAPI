@@ -1,46 +1,37 @@
-package org.civichelpapi.civichelpapi.location.domain;
+package org.civichelpapi.civichelpapi.category.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.civichelpapi.civichelpapi.category.enums.Priority;
 import org.civichelpapi.civichelpapi.shared.domain.BaseEntity;
 import org.hibernate.proxy.HibernateProxy;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 @Entity
-@Table(
-        name = "cities",
-        uniqueConstraints = {
-                @UniqueConstraint(columnNames = {"name", "governorate_id"})
-        }
-)
+@Table(name = "categories")
 @Getter
 @Setter
 @ToString
 @RequiredArgsConstructor
-public class City extends BaseEntity {
+public class Category extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String name;
 
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    @JoinColumn(name = "governorate_id")
-    @ToString.Exclude
-    private Governorate governorate;
+    @Column(nullable = false)
+    private long slaHours;
 
-    @OneToMany(
-            mappedBy = "city",
-            cascade = CascadeType.ALL,
-            orphanRemoval = true
-    )
-    @ToString.Exclude
-    private List<District> districts = new ArrayList<>();
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Priority defaultPriority;
+
+    @Column(nullable = false)
+    private boolean enabled = true;
 
     @Override
     public final boolean equals(Object o) {
@@ -49,8 +40,8 @@ public class City extends BaseEntity {
         Class<?> oEffectiveClass = o instanceof HibernateProxy ? ((HibernateProxy) o).getHibernateLazyInitializer().getPersistentClass() : o.getClass();
         Class<?> thisEffectiveClass = this instanceof HibernateProxy ? ((HibernateProxy) this).getHibernateLazyInitializer().getPersistentClass() : this.getClass();
         if (thisEffectiveClass != oEffectiveClass) return false;
-        City city = (City) o;
-        return getId() != null && Objects.equals(getId(), city.getId());
+        Category category = (Category) o;
+        return getId() != null && Objects.equals(getId(), category.getId());
     }
 
     @Override
