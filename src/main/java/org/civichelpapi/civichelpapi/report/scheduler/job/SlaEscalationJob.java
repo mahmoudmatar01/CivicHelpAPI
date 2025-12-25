@@ -1,6 +1,7 @@
-package org.civichelpapi.civichelpapi.report.scheduler;
+package org.civichelpapi.civichelpapi.report.scheduler.job;
 
 import lombok.RequiredArgsConstructor;
+import org.civichelpapi.civichelpapi.report.scheduler.SlaEscalationService;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 

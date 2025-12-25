@@ -1,5 +1,6 @@
 package org.civichelpapi.civichelpapi.report.service.impl;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.civichelpapi.civichelpapi.category.entity.Category;
 import org.civichelpapi.civichelpapi.category.repository.CategoryRepository;
@@ -10,13 +11,17 @@ import org.civichelpapi.civichelpapi.location.reposirory.DistrictRepository;
 import org.civichelpapi.civichelpapi.report.dto.request.ReportRequest;
 import org.civichelpapi.civichelpapi.report.dto.response.ReportResponse;
 import org.civichelpapi.civichelpapi.report.entity.Report;
+import org.civichelpapi.civichelpapi.report.enums.EventType;
 import org.civichelpapi.civichelpapi.report.enums.Status;
+import org.civichelpapi.civichelpapi.report.event.ReportEvent;
 import org.civichelpapi.civichelpapi.report.helper.ReportHelper;
 import org.civichelpapi.civichelpapi.report.repository.ReportRepository;
 import org.civichelpapi.civichelpapi.report.service.CitizenReportService;
 import org.civichelpapi.civichelpapi.report.service.ReportService;
 import org.civichelpapi.civichelpapi.user.entity.User;
+import org.civichelpapi.civichelpapi.user.enums.Role;
 import org.civichelpapi.civichelpapi.user.repository.UserRepository;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -33,8 +38,10 @@ public class CitizenReportServiceImpl implements CitizenReportService, ReportSer
     private final UserRepository userRepository;
     private final CategoryRepository categoryRepository;
     private final DistrictRepository districtRepository;
+    private final ApplicationEventPublisher eventPublisher;
 
     @Override
+    @Transactional
     public ReportResponse createReport(Long citizenId, ReportRequest request) {
         User citizen = userRepository.findById(citizenId)
                 .orElseThrow(() -> new NotFoundException("User not found"));
@@ -59,8 +66,22 @@ public class CitizenReportServiceImpl implements CitizenReportService, ReportSer
         report.setPriority(category.getDefaultPriority());
         report.setSlaDeadline(LocalDateTime.now().plusHours(category.getSlaHours()));
 
+        report = reportRepository.save(report);
 
-        return toReportResponse(reportRepository.save(report));
+        Long authorityId = userRepository.findByRoleAndCityId(Role.AUTHORITY, report.getDistrict().getCity().getId())
+                .orElseThrow(() -> new RuntimeException(
+                        "No authority assigned for this city"
+                )).getId();
+
+        // Publish event to notify relevant authority
+        eventPublisher.publishEvent(new ReportEvent(
+                this,
+                report.getId(),
+                EventType.CREATED,
+                authorityId
+        ));
+
+        return toReportResponse(report);
 
     }
 

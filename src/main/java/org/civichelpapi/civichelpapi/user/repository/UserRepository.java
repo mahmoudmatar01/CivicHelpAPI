@@ -1,6 +1,8 @@
 package org.civichelpapi.civichelpapi.user.repository;
 
+import org.civichelpapi.civichelpapi.location.entity.City;
 import org.civichelpapi.civichelpapi.user.entity.User;
+import org.civichelpapi.civichelpapi.user.enums.Role;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -10,5 +12,7 @@ import java.util.Optional;
 public interface UserRepository extends JpaRepository<User, Long> {
     Optional<User> findByEmail(String email);
     boolean existsByEmail(String email);
+    Optional<User> findByRoleAndCityId(Role role, Integer cityId);
+
 }
 
