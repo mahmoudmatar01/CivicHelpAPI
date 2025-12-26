@@ -80,5 +80,12 @@ public class Report extends BaseEntity {
     public final int hashCode() {
         return this instanceof HibernateProxy ? ((HibernateProxy) this).getHibernateLazyInitializer().getPersistentClass().hashCode() : getClass().hashCode();
     }
+
+    public boolean isUnresolved() {
+        return this.status == Status.OPEN
+                || this.status == Status.ASSIGNED
+                || this.status == Status.IN_PROGRESS;
+    }
+
 }
 
