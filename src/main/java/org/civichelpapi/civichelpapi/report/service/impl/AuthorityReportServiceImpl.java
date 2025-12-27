@@ -1,6 +1,8 @@
 package org.civichelpapi.civichelpapi.report.service.impl;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.civichelpapi.civichelpapi.audit.service.AuditService;
 import org.civichelpapi.civichelpapi.exception.BusinessException;
 import org.civichelpapi.civichelpapi.exception.NotFoundException;
 import org.civichelpapi.civichelpapi.report.dto.response.ReportResponse;
@@ -22,8 +24,10 @@ public class AuthorityReportServiceImpl implements AuthorityReportService {
 
     private final ReportRepository reportRepository;
     private final UserRepository userRepository;
+    private final AuditService auditService;
 
     @Override
+    @Transactional
     public ReportResponse assignReport(Long reportId, Long authorityId) {
 
         Report report = getReport(reportId);
@@ -35,13 +39,26 @@ public class AuthorityReportServiceImpl implements AuthorityReportService {
 
         validateTransition(report.getStatus(), Status.ASSIGNED);
 
+        String oldStatus = report.getStatus().name();
+
         report.setAssignedAuthority(authority);
         report.setStatus(Status.ASSIGNED);
+        report = reportRepository.save(report);
 
-        return toReportResponse(reportRepository.save(report));
+        auditService.log(
+                authorityId,
+                "AUTHORITY_ASSIGN_REPORT",
+                "REPORT",
+                report.getId().toString(),
+                oldStatus,
+                report.getStatus().name()
+        );
+
+        return toReportResponse(report);
     }
 
     @Override
+    @Transactional
     public ReportResponse startProgress(Long reportId, Long authorityId) {
 
         Report report = getReport(reportId);
@@ -52,11 +69,25 @@ public class AuthorityReportServiceImpl implements AuthorityReportService {
 
         validateTransition(report.getStatus(), Status.IN_PROGRESS);
 
+        String oldStatus = report.getStatus().name();
+
         report.setStatus(Status.IN_PROGRESS);
-        return toReportResponse(reportRepository.save(report));
+        report= reportRepository.save(report);
+
+        auditService.log(
+                authorityId,
+                "AUTHORITY_START_PROGRESS_IN_REPORT",
+                "REPORT",
+                report.getId().toString(),
+                oldStatus,
+                report.getStatus().name()
+        );
+
+        return toReportResponse(report);
     }
 
     @Override
+    @Transactional
     public ReportResponse resolveReport(Long reportId, Long authorityId, String note) {
 
         Report report = getReport(reportId);
@@ -71,11 +102,24 @@ public class AuthorityReportServiceImpl implements AuthorityReportService {
 
         validateTransition(report.getStatus(), Status.RESOLVED);
 
+        String oldStatus = report.getStatus().name();
+
         report.setStatus(Status.RESOLVED);
         report.setResolutionNote(note);
         report.setResolvedAt(LocalDateTime.now());
 
-        return toReportResponse(reportRepository.save(report));
+        report= reportRepository.save(report);
+
+        auditService.log(
+                authorityId,
+                "AUTHORITY_RESOLVE_REPORT {RESOLUTION_NOTE} -> "+report.getResolutionNote(),
+                "REPORT",
+                report.getId().toString(),
+                oldStatus,
+                report.getStatus().name()
+        );
+
+        return toReportResponse(report);
     }
 
     private Report getReport(Long id) {

@@ -1,6 +1,7 @@
 package org.civichelpapi.civichelpapi.report.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.civichelpapi.civichelpapi.common.service.JwtUtil;
 import org.civichelpapi.civichelpapi.report.dto.request.RejectRequest;
 import org.civichelpapi.civichelpapi.report.service.AdminReportService;
 import org.civichelpapi.civichelpapi.common.response.ApiResponse;
@@ -21,9 +22,10 @@ public class AdminReportController {
             @PathVariable Long id,
             @RequestBody RejectRequest request) {
 
+        Long adminId = JwtUtil.getUserIdFromContext();
         return ResponseEntity.ok(
                 ApiResponse.success(
-                        service.rejectReport(id, request.reason())
+                        service.rejectReport(adminId,id, request.reason())
         )
         );
     }

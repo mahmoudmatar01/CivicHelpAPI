@@ -2,6 +2,7 @@ package org.civichelpapi.civichelpapi.report.service.impl;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.civichelpapi.civichelpapi.audit.service.AuditService;
 import org.civichelpapi.civichelpapi.category.entity.Category;
 import org.civichelpapi.civichelpapi.category.repository.CategoryRepository;
 import org.civichelpapi.civichelpapi.exception.BusinessException;
@@ -39,6 +40,7 @@ public class CitizenReportServiceImpl implements CitizenReportService, ReportSer
     private final CategoryRepository categoryRepository;
     private final DistrictRepository districtRepository;
     private final ApplicationEventPublisher eventPublisher;
+    private final AuditService auditService;
 
     @Override
     @Transactional
@@ -125,6 +127,7 @@ public class CitizenReportServiceImpl implements CitizenReportService, ReportSer
 //    }
 
     @Override
+    @Transactional
     public ReportResponse closeReport(Long reportId, Long citizenId) {
 
         Report report = reportRepository.findById(reportId)
@@ -138,7 +141,20 @@ public class CitizenReportServiceImpl implements CitizenReportService, ReportSer
             throw new BusinessException("Only resolved reports can be closed");
         }
 
+        Status oldStatus = report.getStatus();
         report.setStatus(Status.CLOSED);
-        return toReportResponse(reportRepository.save(report));
+
+        report = reportRepository.save(report);
+
+        auditService.log(
+                citizenId,
+                "CITIZEN_CLOSED_REPORT(STATUS_CHANGED)",
+                "REPORT",
+                report.getId().toString(),
+                oldStatus.name(),
+                report.getStatus().name()
+        );
+
+        return toReportResponse(report);
     }
 }
