@@ -6,7 +6,7 @@ import org.civichelpapi.civichelpapi.auth.dto.request.LoginRequest;
 import org.civichelpapi.civichelpapi.auth.dto.request.RegisterRequest;
 import org.civichelpapi.civichelpapi.auth.dto.response.AuthResponse;
 import org.civichelpapi.civichelpapi.auth.service.impl.AuthServiceImpl;
-import org.civichelpapi.civichelpapi.shared.model.ApiResponse;
+import org.civichelpapi.civichelpapi.common.response.ApiResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

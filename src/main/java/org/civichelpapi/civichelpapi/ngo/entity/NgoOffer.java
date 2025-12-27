@@ -6,7 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.civichelpapi.civichelpapi.report.entity.Report;
-import org.civichelpapi.civichelpapi.shared.entity.BaseEntity;
+import org.civichelpapi.civichelpapi.common.base.BaseEntity;
 import org.civichelpapi.civichelpapi.user.entity.User;
 
 import java.time.LocalDateTime;

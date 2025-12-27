@@ -2,7 +2,7 @@ package org.civichelpapi.civichelpapi.exception.global;
 
 import org.civichelpapi.civichelpapi.exception.BusinessException;
 import org.civichelpapi.civichelpapi.exception.NotFoundException;
-import org.civichelpapi.civichelpapi.shared.model.ApiResponse;
+import org.civichelpapi.civichelpapi.common.response.ApiResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;

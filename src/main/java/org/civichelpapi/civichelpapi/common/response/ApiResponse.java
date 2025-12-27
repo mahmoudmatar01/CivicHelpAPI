@@ -1,4 +1,4 @@
-package org.civichelpapi.civichelpapi.shared.model;
+package org.civichelpapi.civichelpapi.common.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;

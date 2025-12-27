@@ -2,7 +2,7 @@ package org.civichelpapi.civichelpapi.report.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.civichelpapi.civichelpapi.report.service.NGOReportService;
-import org.civichelpapi.civichelpapi.shared.model.ApiResponse;
+import org.civichelpapi.civichelpapi.common.response.ApiResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;

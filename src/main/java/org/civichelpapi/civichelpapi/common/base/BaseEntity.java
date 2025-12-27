@@ -1,4 +1,4 @@
-package org.civichelpapi.civichelpapi.shared.entity;
+package org.civichelpapi.civichelpapi.common.base;
 
 import jakarta.persistence.*;
 import lombok.Getter;

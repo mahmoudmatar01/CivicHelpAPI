@@ -2,7 +2,7 @@ package org.civichelpapi.civichelpapi.report.controller;
 import lombok.RequiredArgsConstructor;
 import org.civichelpapi.civichelpapi.report.helper.ReportHelper;
 import org.civichelpapi.civichelpapi.report.service.AuthorityDashboardService;
-import org.civichelpapi.civichelpapi.shared.service.JwtUtil;
+import org.civichelpapi.civichelpapi.common.service.JwtUtil;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;

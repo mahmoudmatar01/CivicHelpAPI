@@ -2,19 +2,14 @@ package org.civichelpapi.civichelpapi.report.controller;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.civichelpapi.civichelpapi.auth.security.CustomUserDetails;
 import org.civichelpapi.civichelpapi.report.dto.request.ReportRequest;
 import org.civichelpapi.civichelpapi.report.service.CitizenReportService;
 import org.civichelpapi.civichelpapi.report.service.ReportService;
-import org.civichelpapi.civichelpapi.shared.model.ApiResponse;
-import org.civichelpapi.civichelpapi.shared.service.JwtUtil;
+import org.civichelpapi.civichelpapi.common.response.ApiResponse;
+import org.civichelpapi.civichelpapi.common.service.JwtUtil;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Objects;
 
 @RestController
 @RequestMapping("/api/citizen/reports")

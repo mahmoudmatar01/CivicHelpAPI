@@ -6,12 +6,11 @@ import org.civichelpapi.civichelpapi.category.entity.Category;
 import org.civichelpapi.civichelpapi.category.enums.Priority;
 import org.civichelpapi.civichelpapi.location.entity.District;
 import org.civichelpapi.civichelpapi.report.enums.Status;
-import org.civichelpapi.civichelpapi.shared.entity.BaseEntity;
+import org.civichelpapi.civichelpapi.common.base.BaseEntity;
 import org.civichelpapi.civichelpapi.user.entity.User;
 import org.hibernate.proxy.HibernateProxy;
 
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Objects;
 
 @Entity

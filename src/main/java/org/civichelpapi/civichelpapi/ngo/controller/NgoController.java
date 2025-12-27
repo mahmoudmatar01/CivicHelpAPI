@@ -1,10 +1,9 @@
 package org.civichelpapi.civichelpapi.ngo.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.civichelpapi.civichelpapi.ngo.entity.NgoOffer;
 import org.civichelpapi.civichelpapi.ngo.service.NgoService;
-import org.civichelpapi.civichelpapi.shared.model.ApiResponse;
-import org.civichelpapi.civichelpapi.shared.service.JwtUtil;
+import org.civichelpapi.civichelpapi.common.response.ApiResponse;
+import org.civichelpapi.civichelpapi.common.service.JwtUtil;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PathVariable;

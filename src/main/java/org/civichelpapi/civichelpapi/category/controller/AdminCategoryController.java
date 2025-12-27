@@ -5,7 +5,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.civichelpapi.civichelpapi.category.dto.request.CategoryRequest;
 import org.civichelpapi.civichelpapi.category.service.CategoryService;
-import org.civichelpapi.civichelpapi.shared.model.ApiResponse;
+import org.civichelpapi.civichelpapi.common.response.ApiResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;

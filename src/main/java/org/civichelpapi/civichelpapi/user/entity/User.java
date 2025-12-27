@@ -5,7 +5,7 @@ import lombok.*;
 import org.civichelpapi.civichelpapi.location.entity.City;
 import org.civichelpapi.civichelpapi.location.entity.District;
 import org.civichelpapi.civichelpapi.location.entity.Governorate;
-import org.civichelpapi.civichelpapi.shared.entity.BaseEntity;
+import org.civichelpapi.civichelpapi.common.base.BaseEntity;
 import org.civichelpapi.civichelpapi.user.enums.Role;
 import org.hibernate.proxy.HibernateProxy;
 

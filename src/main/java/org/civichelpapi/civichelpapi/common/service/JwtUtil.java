@@ -1,4 +1,4 @@
-package org.civichelpapi.civichelpapi.shared.service;
+package org.civichelpapi.civichelpapi.common.service;
 
 import org.civichelpapi.civichelpapi.auth.security.CustomUserDetails;
 import org.springframework.security.core.Authentication;
