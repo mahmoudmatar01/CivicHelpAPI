@@ -144,6 +144,6 @@ Full CI/CD pipeline
 
 ## 👨‍💻 Author
 
-Mahmoud Mohamed Matar
-Backend Engineer
+Mahmoud Mohamed Matar<br>
+Backend Engineer<br>
 📧 Email: <a src ="mahmoudmatar49@gmail.com"> mahmoudmatar49@gmail.com </a>
