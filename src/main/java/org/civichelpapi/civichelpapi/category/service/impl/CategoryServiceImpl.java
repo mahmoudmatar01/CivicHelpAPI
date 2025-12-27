@@ -8,6 +8,8 @@ import org.civichelpapi.civichelpapi.category.repository.CategoryRepository;
 import org.civichelpapi.civichelpapi.category.service.CategoryService;
 import org.civichelpapi.civichelpapi.exception.BusinessException;
 import org.civichelpapi.civichelpapi.exception.NotFoundException;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,6 +22,7 @@ public class CategoryServiceImpl implements CategoryService {
     private final CategoryRepository categoryRepository;
 
     @Override
+    @CacheEvict(value = "categories", allEntries = true)
     public CategoryResponse create(CategoryRequest request) {
         categoryRepository.findByNameIgnoreCase(request.name())
                 .ifPresent(c -> {
@@ -35,6 +38,7 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
+    @CacheEvict(value = "categories", allEntries = true)
     public CategoryResponse update(Integer id, CategoryRequest request) {
         Category category = categoryRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Category not found"));
@@ -47,6 +51,7 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
+    @Cacheable(value = "categories", key = "'active'")
     public List<CategoryResponse> findEnabled() {
         return categoryRepository.findByEnabledTrue()
                 .stream()

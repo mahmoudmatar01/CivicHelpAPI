@@ -6,10 +6,7 @@ import org.civichelpapi.civichelpapi.common.response.ApiResponse;
 import org.civichelpapi.civichelpapi.common.service.JwtUtil;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/ngos")
@@ -26,6 +23,14 @@ public class NgoController {
         var offer = ngoService.offerHelp(ngoId,reportId);
         return ResponseEntity.ok(
                 ApiResponse.success(offer)
+        );
+    }
+
+
+    @GetMapping("/reports/unresolved")
+    public ResponseEntity<?> unresolvedReports() {
+        return ResponseEntity.ok(
+                ApiResponse.success(ngoService.getUnresolvedReports())
         );
     }
 }

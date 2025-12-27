@@ -1,8 +1,15 @@
 spring:
   profiles:
     active: dev
+  cache:
+    type: redis
+  data:
+    redis:
+      host: localhost
+      port: 6379
 
 security:
   jwt:
     secret: FrtEO61Jp5njmhIDOGBpebkZV6LN63nOYLwQ05Ya16K
     expiration: 3600000
+

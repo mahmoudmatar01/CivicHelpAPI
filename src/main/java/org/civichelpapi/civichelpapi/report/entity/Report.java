@@ -14,7 +14,13 @@ import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Entity
-@Table(name = "reports")
+@Table(name = "reports",
+        indexes = {
+                @Index(name = "idx_report_status", columnList = "status"),
+                @Index(name = "idx_report_sla_deadline", columnList = "slaDeadline"),
+                @Index(name = "idx_report_city", columnList = "district_id")
+        }
+        )
 @Getter
 @Setter
 @RequiredArgsConstructor

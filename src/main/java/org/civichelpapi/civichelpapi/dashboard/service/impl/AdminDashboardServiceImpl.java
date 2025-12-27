@@ -8,6 +8,7 @@ import org.civichelpapi.civichelpapi.dashboard.service.AdminDashboardService;
 import org.civichelpapi.civichelpapi.report.entity.Report;
 import org.civichelpapi.civichelpapi.report.enums.Status;
 import org.civichelpapi.civichelpapi.report.repository.ReportRepository;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -40,11 +41,13 @@ public class AdminDashboardServiceImpl implements AdminDashboardService {
     }
 
     @Override
+    @Cacheable(value = "dashboard", key = "'reportsByStatus'")
     public List<StatusChartDto> getReportsByStatus() {
         return reportRepository.countReportsByStatus();
     }
 
     @Override
+    @Cacheable(value = "dashboard", key = "'reportsByStatus'")
     public SlaMetricsDto getSlaMetrics() {
 
         long totalReports = reportRepository.count();

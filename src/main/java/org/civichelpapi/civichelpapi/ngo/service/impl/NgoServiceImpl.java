@@ -11,14 +11,18 @@ import org.civichelpapi.civichelpapi.ngo.entity.NgoOffer;
 import org.civichelpapi.civichelpapi.ngo.event.NgoHelpOfferedEvent;
 import org.civichelpapi.civichelpapi.ngo.repository.NgoOfferRepository;
 import org.civichelpapi.civichelpapi.ngo.service.NgoService;
+import org.civichelpapi.civichelpapi.report.dto.response.ReportResponse;
 import org.civichelpapi.civichelpapi.report.entity.Report;
+import org.civichelpapi.civichelpapi.report.helper.ReportHelper;
 import org.civichelpapi.civichelpapi.report.repository.ReportRepository;
 import org.civichelpapi.civichelpapi.user.entity.User;
 import org.civichelpapi.civichelpapi.user.repository.UserRepository;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -78,5 +82,16 @@ public class NgoServiceImpl implements NgoService {
                 offer.getReport().getId()
         );
 
+    }
+
+    @Override
+    @Cacheable(
+            value = "ngoReports", key = "'unResolvedReports'"
+    )
+    public List<ReportResponse> getUnresolvedReports() {
+        List<Report> reports =  reportRepository.findByStatusIn();
+        return reports.stream().map(
+                ReportHelper::toReportResponse
+        ).toList();
     }
 }
