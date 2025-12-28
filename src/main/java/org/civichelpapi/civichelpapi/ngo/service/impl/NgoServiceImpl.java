@@ -85,9 +85,10 @@ public class NgoServiceImpl implements NgoService {
     }
 
     @Override
-    @Cacheable(
-            value = "ngoReports", key = "'unResolvedReports'"
-    )
+//    @Cacheable(
+//            value = "ngoReports", key = "'unResolvedReports'"
+//    )
+    @Cacheable("ngoReports")
     public List<ReportResponse> getUnresolvedReports() {
         List<Report> reports =  reportRepository.findByStatusIn();
         return reports.stream().map(

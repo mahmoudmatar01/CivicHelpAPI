@@ -41,13 +41,15 @@ public class AdminDashboardServiceImpl implements AdminDashboardService {
     }
 
     @Override
-    @Cacheable(value = "dashboard", key = "'reportsByStatus'")
+//    @Cacheable(value = "dashboard", key = "'reportsByStatus'")
+    @Cacheable("dashboard")
     public List<StatusChartDto> getReportsByStatus() {
         return reportRepository.countReportsByStatus();
     }
 
     @Override
-    @Cacheable(value = "dashboard", key = "'reportsByStatus'")
+//    @Cacheable(value = "dashboard", key = "'reportsByStatus'")
+    @Cacheable("dashboard")
     public SlaMetricsDto getSlaMetrics() {
 
         long totalReports = reportRepository.count();

@@ -51,7 +51,8 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    @Cacheable(value = "categories", key = "'active'")
+//    @Cacheable(value = "categories", key = "'active'")
+    @Cacheable("categories")
     public List<CategoryResponse> findEnabled() {
         return categoryRepository.findByEnabledTrue()
                 .stream()
