@@ -1,6 +1,5 @@
 package org.civichelpapi.civichelpapi.report.dto.request;
 
-import java.util.List;
 
 public record ReportRequest(
         Integer categoryId,

@@ -14,7 +14,7 @@ public class ReportHelper {
                 r.getDistrict().getCity().getName(),
                 r.getDistrict().getCity().getGovernorate().getName(),
                 r.getDescription(),
-//                r.getImageUrls(),
+                r.getImageUrls(),
                 r.getStatus().name(),
                 r.getPriority().name(),
                 r.getCreatedAt()

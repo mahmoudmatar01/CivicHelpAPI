@@ -11,6 +11,8 @@ import org.civichelpapi.civichelpapi.user.entity.User;
 import org.hibernate.proxy.HibernateProxy;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -43,8 +45,13 @@ public class Report extends BaseEntity {
     @Column(nullable = false, length = 1000)
     private String description;
 
-//    @ElementCollection
-//    private List<String> imageUrls;
+    @ElementCollection
+    @CollectionTable(
+            name = "report_images",
+            joinColumns = @JoinColumn(name = "report_id")
+    )
+    @Column(name = "image_url")
+    private List<String> imageUrls = new ArrayList<>();
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)

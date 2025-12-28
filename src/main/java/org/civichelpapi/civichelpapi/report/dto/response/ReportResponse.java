@@ -10,7 +10,7 @@ public record ReportResponse(
         String cityName,
         String districtName,
         String description,
-//        List<String> imageUrls,
+        List<String> imageUrls,
         String status,
         String priority,
         LocalDateTime createdAt

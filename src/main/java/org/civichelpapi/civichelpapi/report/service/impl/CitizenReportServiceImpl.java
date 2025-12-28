@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.civichelpapi.civichelpapi.audit.service.AuditService;
 import org.civichelpapi.civichelpapi.category.entity.Category;
 import org.civichelpapi.civichelpapi.category.repository.CategoryRepository;
+import org.civichelpapi.civichelpapi.common.service.ImageUploadService;
 import org.civichelpapi.civichelpapi.exception.BusinessException;
 import org.civichelpapi.civichelpapi.exception.NotFoundException;
 import org.civichelpapi.civichelpapi.location.entity.District;
@@ -24,6 +25,7 @@ import org.civichelpapi.civichelpapi.user.enums.Role;
 import org.civichelpapi.civichelpapi.user.repository.UserRepository;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -41,15 +43,16 @@ public class CitizenReportServiceImpl implements CitizenReportService, ReportSer
     private final DistrictRepository districtRepository;
     private final ApplicationEventPublisher eventPublisher;
     private final AuditService auditService;
+    private final ImageUploadService imageUploadService;
 
     @Override
     @Transactional
-    public ReportResponse createReport(Long citizenId, ReportRequest request) {
+    public ReportResponse createReport(Long citizenId, ReportRequest request,List<MultipartFile> images) {
         User citizen = userRepository.findById(citizenId)
                 .orElseThrow(() -> new NotFoundException("User not found"));
 
-        Category category = categoryRepository.findById(request.categoryId())
-                .orElseThrow(() -> new NotFoundException("Category not found"));
+        Category category = categoryRepository.findByIdAndEnabledTrue(request.categoryId())
+                .orElseThrow(() -> new NotFoundException("Category is inactive or not found"));
 
         if (!category.isEnabled()) {
             throw new BusinessException("Category is disabled");
@@ -58,12 +61,15 @@ public class CitizenReportServiceImpl implements CitizenReportService, ReportSer
         District district = districtRepository.findById(request.districtId())
                 .orElseThrow(() -> new NotFoundException("District not found"));
 
+        List<String> imageUrls = imageUploadService.uploadImages(images);
+
+
         Report report = new Report();
         report.setCitizen(citizen);
         report.setCategory(category);
         report.setDistrict(district);
         report.setDescription(request.description());
-//        report.setImageUrls(request.imagesUrl());
+        report.setImageUrls(imageUrls);
         report.setStatus(Status.OPEN);
         report.setPriority(category.getDefaultPriority());
         report.setSlaDeadline(LocalDateTime.now().plusHours(category.getSlaHours()));
