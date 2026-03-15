@@ -146,4 +146,3 @@ Full CI/CD pipeline
 
 Mahmoud Mohamed Matar<br>
 Backend Engineer<br>
-📧 Email: <a src ="mahmoud.dev59@gmail.com"> mahmoud.dev59@gmail.com </a>
