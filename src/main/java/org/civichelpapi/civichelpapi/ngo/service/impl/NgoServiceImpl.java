@@ -3,7 +3,6 @@ package org.civichelpapi.civichelpapi.ngo.service.impl;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.civichelpapi.civichelpapi.audit.service.AuditService;
-import org.civichelpapi.civichelpapi.auth.jwt.JwtService;
 import org.civichelpapi.civichelpapi.exception.BusinessException;
 import org.civichelpapi.civichelpapi.exception.NotFoundException;
 import org.civichelpapi.civichelpapi.ngo.dto.NgoOfferDto;
@@ -43,10 +42,6 @@ public class NgoServiceImpl implements NgoService {
 
         if (!report.isUnresolved()) {
             throw new BusinessException("Cannot offer help on resolved or rejected reports");
-        }
-
-        if (ngoOfferRepository.existsByNgoIdAndReportId(ngoId, reportId)) {
-            throw new BusinessException("You have already offered help for this report");
         }
 
         if (ngoOfferRepository.existsByNgoIdAndReportId(ngoId, reportId)) {

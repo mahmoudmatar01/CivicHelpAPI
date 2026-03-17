@@ -54,10 +54,6 @@ public class CitizenReportServiceImpl implements CitizenReportService, ReportSer
         Category category = categoryRepository.findByIdAndEnabledTrue(request.categoryId())
                 .orElseThrow(() -> new NotFoundException("Category is inactive or not found"));
 
-        if (!category.isEnabled()) {
-            throw new BusinessException("Category is disabled");
-        }
-
         District district = districtRepository.findById(request.districtId())
                 .orElseThrow(() -> new NotFoundException("District not found"));
 
@@ -77,8 +73,8 @@ public class CitizenReportServiceImpl implements CitizenReportService, ReportSer
         report = reportRepository.save(report);
 
         Long authorityId = userRepository.findByRoleAndCityId(Role.AUTHORITY, report.getDistrict().getCity().getId())
-                .orElseThrow(() -> new RuntimeException(
-                        "No authority assigned for this city"
+                .orElseThrow(() -> new BusinessException(
+                        "No authority is assigned to this city. Please contact an administrator."
                 )).getId();
 
         // Publish event to notify relevant authority

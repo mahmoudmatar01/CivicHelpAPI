@@ -2,6 +2,7 @@ package org.civichelpapi.civichelpapi.report.service.impl;
 
 
 import lombok.RequiredArgsConstructor;
+import org.civichelpapi.civichelpapi.exception.NotFoundException;
 import org.civichelpapi.civichelpapi.report.entity.Report;
 import org.civichelpapi.civichelpapi.report.enums.Status;
 import org.civichelpapi.civichelpapi.report.repository.ReportRepository;
@@ -35,7 +36,7 @@ public class AuthorityDashboardServiceImpl implements AuthorityDashboardService 
             Pageable pageable
     ) {
         User authority = userRepository.findById(authorityId)
-                .orElseThrow(() -> new RuntimeException("Authority not found"));
+                .orElseThrow(() -> new NotFoundException("Authority not found"));
 
         Integer cityId = authority.getCity().getId();
 

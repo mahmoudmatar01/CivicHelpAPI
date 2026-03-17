@@ -1,5 +1,6 @@
 package org.civichelpapi.civichelpapi.report.controller;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.civichelpapi.civichelpapi.report.dto.request.ResolutionRequest;
 import org.civichelpapi.civichelpapi.report.service.AuthorityReportService;
@@ -31,7 +32,7 @@ public class AuthorityReportController {
     @PostMapping("/{id}/resolve")
     public ApiResponse<?> resolve(
             @PathVariable Long id,
-            @RequestBody ResolutionRequest request) {
+            @RequestBody @Valid ResolutionRequest request) {
 
         Long authorityId = JwtUtil.getUserIdFromContext();
         return ApiResponse.success(

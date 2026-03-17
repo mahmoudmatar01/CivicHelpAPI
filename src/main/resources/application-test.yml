@@ -1,11 +1,25 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/CivicHelpTestDB
-    driver-class-name: org.postgresql.Driver
-    username: postgres
-    password: matar
+    url: jdbc:h2:mem:civichelptest;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE;MODE=PostgreSQL
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
 
   jpa:
     hibernate:
       ddl-auto: create-drop
-    show-sql: true
+    show-sql: false
+    database-platform: org.hibernate.dialect.H2Dialect
+
+  cache:
+    type: none
+
+security:
+  jwt:
+    secret: test-secret-key-must-be-at-least-32-characters-long
+    expiration: 3600000
+
+cloudinary:
+  cloud-name: test
+  api-key: test
+  api-secret: test

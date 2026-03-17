@@ -1,22 +1,25 @@
 package org.civichelpapi.civichelpapi.common.service;
 
 import org.civichelpapi.civichelpapi.auth.security.CustomUserDetails;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-
-import java.util.Objects;
 
 
 public class JwtUtil {
 
+    private JwtUtil() {
+        // Utility class — do not instantiate
+    }
+
     public static Long getUserIdFromContext() {
-        Authentication authentication =
-                SecurityContextHolder.getContext().getAuthentication();
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
-        CustomUserDetails user =
-                (CustomUserDetails) Objects.requireNonNull(authentication).getPrincipal();
+        if (authentication == null || !(authentication.getPrincipal() instanceof CustomUserDetails user)) {
+            throw new AccessDeniedException("User not authenticated or invalid principal type");
+        }
 
-        return Objects.requireNonNull(user).getUserId();
+        return user.getUserId();
     }
 
 }

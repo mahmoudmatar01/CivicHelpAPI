@@ -1,7 +1,8 @@
 package org.civichelpapi.civichelpapi.ngo.dto;
 
+
 public record NgoOfferDto(
-        Integer offerID,
+        Integer id,
         Long ngoId,
         Long reportId
 ) {

@@ -51,8 +51,7 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-//    @Cacheable(value = "categories", key = "'active'")
-    @Cacheable("categories")
+    @Cacheable(value = "categories", key = "'active'")
     public List<CategoryResponse> findEnabled() {
         return categoryRepository.findByEnabledTrue()
                 .stream()
@@ -61,11 +60,13 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
+    @CacheEvict(value = "categories", allEntries = true)
     public void enable(Integer id) {
         toggle(id, true);
     }
 
     @Override
+    @CacheEvict(value = "categories", allEntries = true)
     public void disable(Integer id) {
         toggle(id, false);
     }
@@ -73,13 +74,11 @@ public class CategoryServiceImpl implements CategoryService {
     private void toggle(Integer id, boolean enabled) {
         Category category = categoryRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Category not found"));
-        if(category.isEnabled() && enabled) {
+        if (category.isEnabled() && enabled) {
             throw new BusinessException("Category is already enabled");
-        }
-        else if(category.isEnabled() == false && enabled == false) {
+        } else if (!category.isEnabled() && !enabled) {
             throw new BusinessException("Category is already disabled");
-        }
-        else{
+        } else {
             category.setEnabled(enabled);
             categoryRepository.save(category);
         }

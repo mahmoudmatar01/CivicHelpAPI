@@ -1,5 +1,6 @@
 package org.civichelpapi.civichelpapi.report.controller;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.civichelpapi.civichelpapi.common.service.JwtUtil;
 import org.civichelpapi.civichelpapi.report.dto.request.RejectRequest;
@@ -20,14 +21,13 @@ public class AdminReportController {
     @PostMapping("/{id}/reject")
     public ResponseEntity<?> reject(
             @PathVariable Long id,
-            @RequestBody RejectRequest request) {
+            @RequestBody @Valid RejectRequest request) {
 
         Long adminId = JwtUtil.getUserIdFromContext();
         return ResponseEntity.ok(
                 ApiResponse.success(
-                        service.rejectReport(adminId,id, request.reason())
+                        service.rejectReport(adminId, id, request.reason())
         )
         );
     }
 }
-
