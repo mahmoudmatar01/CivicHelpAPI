@@ -2,9 +2,9 @@ package org.civichelpapi.civichelpapi.report;
 
 import org.civichelpapi.civichelpapi.category.entity.Category;
 import org.civichelpapi.civichelpapi.category.enums.Priority;
-import org.civichelpapi.civichelpapi.location.entity.City;
-import org.civichelpapi.civichelpapi.location.entity.District;
-import org.civichelpapi.civichelpapi.location.entity.Governorate;
+import org.civichelpapi.civichelpapi.address.entity.City;
+import org.civichelpapi.civichelpapi.address.entity.District;
+import org.civichelpapi.civichelpapi.address.entity.Governorate;
 import org.civichelpapi.civichelpapi.report.dto.response.ReportResponse;
 import org.civichelpapi.civichelpapi.report.entity.Report;
 import org.civichelpapi.civichelpapi.report.enums.Status;

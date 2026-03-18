@@ -9,9 +9,12 @@ import org.civichelpapi.civichelpapi.exception.NotFoundException;
 import org.civichelpapi.civichelpapi.report.dto.response.ReportResponse;
 import org.civichelpapi.civichelpapi.report.entity.Report;
 import org.civichelpapi.civichelpapi.report.enums.Status;
+import org.civichelpapi.civichelpapi.report.helper.ReportHelper;
 import org.civichelpapi.civichelpapi.report.repository.ReportRepository;
 import org.civichelpapi.civichelpapi.report.service.AdminReportService;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 import static org.civichelpapi.civichelpapi.report.helper.ReportHelper.toReportResponse;
 
@@ -54,6 +57,13 @@ public class AdminReportServiceImpl implements AdminReportService {
         );
 
         return toReportResponse(report);
+    }
+
+    @Override
+    public List<ReportResponse> getAllNewReports() {
+        List<Report>reports=reportRepository.findAllByStatus(Status.OPEN);
+        return reports.stream()
+                .map(ReportHelper::toReportResponse).toList();
     }
 
 }

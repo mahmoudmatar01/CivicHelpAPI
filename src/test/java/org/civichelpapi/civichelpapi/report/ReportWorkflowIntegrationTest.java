@@ -6,10 +6,10 @@ import org.civichelpapi.civichelpapi.category.dto.request.CategoryRequest;
 import org.civichelpapi.civichelpapi.category.dto.response.CategoryResponse;
 import org.civichelpapi.civichelpapi.category.enums.Priority;
 import org.civichelpapi.civichelpapi.category.service.CategoryService;
-import org.civichelpapi.civichelpapi.location.entity.City;
-import org.civichelpapi.civichelpapi.location.entity.District;
-import org.civichelpapi.civichelpapi.location.entity.Governorate;
-import org.civichelpapi.civichelpapi.location.reposirory.GovernorateRepository;
+import org.civichelpapi.civichelpapi.address.entity.City;
+import org.civichelpapi.civichelpapi.address.entity.District;
+import org.civichelpapi.civichelpapi.address.entity.Governorate;
+import org.civichelpapi.civichelpapi.address.reposirory.GovernorateRepository;
 import org.civichelpapi.civichelpapi.report.dto.request.ReportRequest;
 import org.civichelpapi.civichelpapi.report.dto.response.ReportResponse;
 import org.civichelpapi.civichelpapi.report.enums.Status;
@@ -74,7 +74,7 @@ class ReportWorkflowIntegrationTest {
         categoryId = cat.id();
 
         // Setup Users
-        authService.register(new RegisterRequest("Citizen", "citizen@test.com", "password"));
+        authService.register(new RegisterRequest("Citizen", "citizen@test.com", "password","password"));
         User citizen = userRepository.findByEmail("citizen@test.com").get();
         citizenId = citizen.getId();
 
@@ -83,7 +83,7 @@ class ReportWorkflowIntegrationTest {
         authority.setFullName("Authority");
         authority.setEmail("auth@test.com");
         authority.setPassword("password");
-        authority.setRole(Role.AUTHORITY);
+        authority.setRole(Role.ROLE_AUTHORITY);
         authority.setCity(c);
         authority.setEnabled(true);
         userRepository.save(authority);

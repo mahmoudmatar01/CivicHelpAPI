@@ -42,8 +42,8 @@ public class SlaEscalationService {
 
             reportRepository.save(report);
 
-            Long authorityId = userRepository.findByRoleAndCityId(Role.AUTHORITY, report.getDistrict().getCity().getId())
-                    .orElseThrow(() -> new RuntimeException(
+            Long authorityId = userRepository.findFirstByRoleAndCityId(Role.ROLE_AUTHORITY, report.getDistrict().getCity().getId())
+                    .orElseThrow(() -> new org.civichelpapi.civichelpapi.exception.NotFoundException(
                             "No authority assigned for this city"
                     )).getId();
 

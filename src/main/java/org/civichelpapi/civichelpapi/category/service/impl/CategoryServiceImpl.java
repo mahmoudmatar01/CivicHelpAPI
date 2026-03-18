@@ -61,17 +61,17 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     @CacheEvict(value = "categories", allEntries = true)
-    public void enable(Integer id) {
-        toggle(id, true);
+    public CategoryResponse enable(Integer id) {
+        return toggle(id, true);
     }
 
     @Override
     @CacheEvict(value = "categories", allEntries = true)
-    public void disable(Integer id) {
-        toggle(id, false);
+    public CategoryResponse disable(Integer id) {
+        return toggle(id, false);
     }
 
-    private void toggle(Integer id, boolean enabled) {
+    private CategoryResponse toggle(Integer id, boolean enabled) {
         Category category = categoryRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Category not found"));
         if (category.isEnabled() && enabled) {
@@ -80,7 +80,8 @@ public class CategoryServiceImpl implements CategoryService {
             throw new BusinessException("Category is already disabled");
         } else {
             category.setEnabled(enabled);
-            categoryRepository.save(category);
+            category = categoryRepository.save(category);
+            return map(category);
         }
     }
 

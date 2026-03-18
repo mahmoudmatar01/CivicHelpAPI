@@ -4,9 +4,9 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.civichelpapi.civichelpapi.category.entity.Category;
 import org.civichelpapi.civichelpapi.category.enums.Priority;
-import org.civichelpapi.civichelpapi.location.entity.District;
+import org.civichelpapi.civichelpapi.address.entity.District;
 import org.civichelpapi.civichelpapi.report.enums.Status;
-import org.civichelpapi.civichelpapi.common.base.BaseEntity;
+import org.civichelpapi.civichelpapi.util.entity.BaseEntity;
 import org.civichelpapi.civichelpapi.user.entity.User;
 import org.hibernate.proxy.HibernateProxy;
 
@@ -36,10 +36,10 @@ public class Report extends BaseEntity {
     @ToString.Exclude
     private User citizen;
 
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Category category;
 
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private District district;
 
     @Column(nullable = false, length = 1000)

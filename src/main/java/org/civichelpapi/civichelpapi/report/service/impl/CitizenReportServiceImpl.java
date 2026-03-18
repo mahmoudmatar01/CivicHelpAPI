@@ -5,11 +5,11 @@ import lombok.RequiredArgsConstructor;
 import org.civichelpapi.civichelpapi.audit.service.AuditService;
 import org.civichelpapi.civichelpapi.category.entity.Category;
 import org.civichelpapi.civichelpapi.category.repository.CategoryRepository;
-import org.civichelpapi.civichelpapi.common.service.ImageUploadService;
+import org.civichelpapi.civichelpapi.util.service.ImageUploadService;
 import org.civichelpapi.civichelpapi.exception.BusinessException;
 import org.civichelpapi.civichelpapi.exception.NotFoundException;
-import org.civichelpapi.civichelpapi.location.entity.District;
-import org.civichelpapi.civichelpapi.location.reposirory.DistrictRepository;
+import org.civichelpapi.civichelpapi.address.entity.District;
+import org.civichelpapi.civichelpapi.address.reposirory.DistrictRepository;
 import org.civichelpapi.civichelpapi.report.dto.request.ReportRequest;
 import org.civichelpapi.civichelpapi.report.dto.response.ReportResponse;
 import org.civichelpapi.civichelpapi.report.entity.Report;
@@ -72,7 +72,7 @@ public class CitizenReportServiceImpl implements CitizenReportService, ReportSer
 
         report = reportRepository.save(report);
 
-        Long authorityId = userRepository.findByRoleAndCityId(Role.AUTHORITY, report.getDistrict().getCity().getId())
+        Long authorityId = userRepository.findFirstByRoleAndCityId(Role.ROLE_AUTHORITY, report.getDistrict().getCity().getId())
                 .orElseThrow(() -> new BusinessException(
                         "No authority is assigned to this city. Please contact an administrator."
                 )).getId();

@@ -4,8 +4,8 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.civichelpapi.civichelpapi.report.dto.request.ResolutionRequest;
 import org.civichelpapi.civichelpapi.report.service.AuthorityReportService;
-import org.civichelpapi.civichelpapi.common.response.ApiResponse;
-import org.civichelpapi.civichelpapi.common.service.JwtUtil;
+import org.civichelpapi.civichelpapi.util.response.ApiResponse;
+import org.civichelpapi.civichelpapi.util.service.JwtUtil;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 

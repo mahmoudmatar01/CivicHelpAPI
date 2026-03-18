@@ -3,7 +3,7 @@ package org.civichelpapi.civichelpapi.category.entity;
 import jakarta.persistence.*;
 import lombok.*;
 import org.civichelpapi.civichelpapi.category.enums.Priority;
-import org.civichelpapi.civichelpapi.common.base.BaseEntity;
+import org.civichelpapi.civichelpapi.util.entity.BaseEntity;
 import org.hibernate.proxy.HibernateProxy;
 
 import java.util.Objects;

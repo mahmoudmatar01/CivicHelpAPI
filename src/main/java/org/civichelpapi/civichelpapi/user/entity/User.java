@@ -2,10 +2,10 @@ package org.civichelpapi.civichelpapi.user.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.civichelpapi.civichelpapi.location.entity.City;
-import org.civichelpapi.civichelpapi.location.entity.District;
-import org.civichelpapi.civichelpapi.location.entity.Governorate;
-import org.civichelpapi.civichelpapi.common.base.BaseEntity;
+import org.civichelpapi.civichelpapi.address.entity.City;
+import org.civichelpapi.civichelpapi.address.entity.District;
+import org.civichelpapi.civichelpapi.address.entity.Governorate;
+import org.civichelpapi.civichelpapi.util.entity.BaseEntity;
 import org.civichelpapi.civichelpapi.user.enums.Role;
 import org.hibernate.proxy.HibernateProxy;
 
@@ -39,13 +39,13 @@ public class User extends BaseEntity {
     @Column(nullable = false)
     private boolean enabled = true;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Governorate governorate;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private City city;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private District district;
 
     @Override

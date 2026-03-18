@@ -4,18 +4,19 @@ import lombok.RequiredArgsConstructor;
 import org.civichelpapi.civichelpapi.category.entity.Category;
 import org.civichelpapi.civichelpapi.category.enums.Priority;
 import org.civichelpapi.civichelpapi.category.repository.CategoryRepository;
-import org.civichelpapi.civichelpapi.location.entity.City;
-import org.civichelpapi.civichelpapi.location.entity.District;
-import org.civichelpapi.civichelpapi.location.entity.Governorate;
-import org.civichelpapi.civichelpapi.location.reposirory.GovernorateRepository;
+import org.civichelpapi.civichelpapi.address.entity.City;
+import org.civichelpapi.civichelpapi.address.entity.District;
+import org.civichelpapi.civichelpapi.address.entity.Governorate;
+import org.civichelpapi.civichelpapi.address.reposirory.GovernorateRepository;
 import org.civichelpapi.civichelpapi.user.entity.User;
 import org.civichelpapi.civichelpapi.user.enums.Role;
 import org.civichelpapi.civichelpapi.user.repository.UserRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Profile;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Component
@@ -26,11 +27,15 @@ public class DataSeeder implements CommandLineRunner {
     private final GovernorateRepository governorateRepo;
     private final CategoryRepository categoryRepo;
     private final UserRepository userRepo;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
+    @Transactional
     public void run(String... args) throws Exception {
         seedLocations();
         seedCategories();
+        seedAdminAccount();
+        seedAuthorities();
     }
 
     private void seedLocations() {
@@ -79,13 +84,19 @@ public class DataSeeder implements CommandLineRunner {
         governorateRepo.save(giza);
     }
 
-    private void seedAuthoritiesAndNGOAndAdmins(){
+    private void seedAdminAccount(){
+
+        List<User>admins = userRepo.findAllByRole(Role.ROLE_ADMIN);
+
+        if (!admins.isEmpty()) {
+            return;
+        }
 
         // Seed admin account
         User admin = new User();
         admin.setEmail("admin@admin.com");
-        admin.setPassword("admin-password");
-        admin.setRole(Role.ADMIN);
+        admin.setPassword(passwordEncoder.encode("adminPassword"));
+        admin.setRole(Role.ROLE_ADMIN);
         admin.setFullName("Admin");
 
         Governorate cairo = governorateRepo.findByNameIgnoreCase("Cairo").get();
@@ -95,12 +106,23 @@ public class DataSeeder implements CommandLineRunner {
 
         admin.setEnabled(true);
 
+        userRepo.save(admin);
+    }
+
+    private void seedAuthorities(){
+
+        List<User>authorities = userRepo.findAllByRole(Role.ROLE_AUTHORITY);
+
+       if (!authorities.isEmpty()) {
+           return;
+       }
+
         // Seed authority account
         User authority = new User();
-        admin.setEmail("authority@authority.com");
-        admin.setPassword("authority-password");
-        admin.setRole(Role.AUTHORITY);
-        admin.setFullName("Authority");
+        authority.setEmail("authority@authority.com");
+        authority.setPassword(passwordEncoder.encode("authorityPassword"));
+        authority.setRole(Role.ROLE_AUTHORITY);
+        authority.setFullName("Authority");
 
         Governorate giza = governorateRepo.findByNameIgnoreCase("Giza").get();
         authority.setGovernorate(giza);
@@ -109,9 +131,7 @@ public class DataSeeder implements CommandLineRunner {
 
         authority.setEnabled(true);
 
-        // save data
-        userRepo.saveAll(List.of(admin,authority));
-
+        userRepo.save(authority);
     }
 
     private void seedCategories() {

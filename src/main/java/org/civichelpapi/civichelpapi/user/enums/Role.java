@@ -1,8 +1,8 @@
 package org.civichelpapi.civichelpapi.user.enums;
 
 public enum Role {
-    CITIZEN,
-    AUTHORITY,
-    NGO,
-    ADMIN
+    ROLE_CITIZEN,
+    ROLE_AUTHORITY,
+    ROLE_NGO,
+    ROLE_ADMIN
 }

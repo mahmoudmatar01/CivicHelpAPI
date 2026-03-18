@@ -2,10 +2,10 @@ package org.civichelpapi.civichelpapi.report.controller;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.civichelpapi.civichelpapi.common.service.JwtUtil;
+import org.civichelpapi.civichelpapi.util.service.JwtUtil;
 import org.civichelpapi.civichelpapi.report.dto.request.RejectRequest;
 import org.civichelpapi.civichelpapi.report.service.AdminReportService;
-import org.civichelpapi.civichelpapi.common.response.ApiResponse;
+import org.civichelpapi.civichelpapi.util.response.ApiResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -28,6 +28,15 @@ public class AdminReportController {
                 ApiResponse.success(
                         service.rejectReport(adminId, id, request.reason())
         )
+        );
+    }
+
+    @GetMapping("/open")
+    public ResponseEntity<?> findOpenReports() {
+        return ResponseEntity.ok(
+                ApiResponse.success(
+                        service.getAllNewReports()
+                )
         );
     }
 }

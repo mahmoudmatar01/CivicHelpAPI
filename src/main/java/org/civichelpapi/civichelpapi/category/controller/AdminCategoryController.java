@@ -5,7 +5,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.civichelpapi.civichelpapi.category.dto.request.CategoryRequest;
 import org.civichelpapi.civichelpapi.category.service.CategoryService;
-import org.civichelpapi.civichelpapi.common.response.ApiResponse;
+import org.civichelpapi.civichelpapi.util.response.ApiResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -37,17 +37,21 @@ public class AdminCategoryController {
 
     @PatchMapping("/{id}/enable")
     public ResponseEntity<?> enable(@PathVariable Integer id) {
-        categoryService.enable(id);
+
         return ResponseEntity.ok(
-                ApiResponse.success("Category enabled")
+                ApiResponse.success(
+                        categoryService.enable(id)
+                )
         );
     }
 
     @PatchMapping("/{id}/disable")
     public ResponseEntity<?> disable(@PathVariable Integer id) {
-        categoryService.disable(id);
+
         return ResponseEntity.ok(
-                ApiResponse.success("Category disabled")
+                ApiResponse.success(
+                        categoryService.disable(id)
+                )
         );
     }
 

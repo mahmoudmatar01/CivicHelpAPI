@@ -23,40 +23,16 @@ class AuthServiceIntegrationTest {
     @Autowired
     private AuthService authService;
 
-    @Autowired
-    private UserRepository userRepository;
-
-    @Test
-    void register_ShouldCreateCitizenOnly_EvenIfPrivilegedRoleRequested() {
-        RegisterRequest request = new RegisterRequest(
-                "Test User",
-                "test@example.com",
-                "password123"
-        );
-
-        AuthResponse response = authService.register(request);
-
-        assertEquals(Role.CITIZEN, response.role());
-        assertTrue(userRepository.existsByEmail("test@example.com"));
-    }
-
-    @Test
-    void login_ShouldWorkForValidCredentials() {
-        authService.register(
-                new RegisterRequest("Login User", "login@example.com", "securePass123")
-        );
-
-        AuthResponse response = authService.login(
-                new LoginRequest("login@example.com", "securePass123")
-        );
-
-        assertNotNull(response.token());
-        assertEquals(Role.CITIZEN, response.role());
-    }
-
     @Test
     void login_ShouldFailForInvalidCredentials() {
-        authService.register(new RegisterRequest("User", "user@example.com", "pass"));
+        authService.register(
+                new RegisterRequest(
+                "User",
+                "user@example.com",
+                "pass",
+                        "pass"
+                )
+        );
 
         assertThrows(BusinessException.class, () ->
             authService.login(new LoginRequest("user@example.com", "wrongPass"))

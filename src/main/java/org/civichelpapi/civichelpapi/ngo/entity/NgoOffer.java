@@ -6,7 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.civichelpapi.civichelpapi.report.entity.Report;
-import org.civichelpapi.civichelpapi.common.base.BaseEntity;
+import org.civichelpapi.civichelpapi.util.entity.BaseEntity;
 import org.civichelpapi.civichelpapi.user.entity.User;
 
 import java.time.LocalDateTime;
@@ -28,11 +28,11 @@ public class NgoOffer extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "ngo_id")
     private User ngo;
 
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "report_id")
     private Report report;
 

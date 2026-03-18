@@ -29,6 +29,8 @@ public interface ReportRepository extends JpaRepository<Report, Long> {
             Long authorityId,
             Pageable pageable
     );
+
+    List<Report>findAllByStatus(Status status);
     Page<Report> findByDistrictCityIdAndStatusIn(
             Integer cityId,
             List<Status> statuses,
@@ -82,7 +84,7 @@ public interface ReportRepository extends JpaRepository<Report, Long> {
     @Query("""
     SELECT COUNT(r)
     FROM Report r
-    WHERE r.status = 'RESOLVED'
+    WHERE r.status = org.civichelpapi.civichelpapi.report.enums.Status.RESOLVED
       AND r.resolvedAt > r.slaDeadline
     """)
     long countResolvedLate();

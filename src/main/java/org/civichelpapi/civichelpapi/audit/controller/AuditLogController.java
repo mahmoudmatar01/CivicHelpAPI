@@ -4,7 +4,7 @@ package org.civichelpapi.civichelpapi.audit.controller;
 import lombok.RequiredArgsConstructor;
 import org.civichelpapi.civichelpapi.audit.dto.AuditLogDto;
 import org.civichelpapi.civichelpapi.audit.service.AuditService;
-import org.civichelpapi.civichelpapi.common.response.ApiResponse;
+import org.civichelpapi.civichelpapi.util.response.ApiResponse;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;

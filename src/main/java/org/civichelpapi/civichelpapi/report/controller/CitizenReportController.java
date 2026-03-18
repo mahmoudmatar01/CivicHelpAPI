@@ -5,8 +5,8 @@ import lombok.RequiredArgsConstructor;
 import org.civichelpapi.civichelpapi.report.dto.request.ReportRequest;
 import org.civichelpapi.civichelpapi.report.service.CitizenReportService;
 import org.civichelpapi.civichelpapi.report.service.ReportService;
-import org.civichelpapi.civichelpapi.common.response.ApiResponse;
-import org.civichelpapi.civichelpapi.common.service.JwtUtil;
+import org.civichelpapi.civichelpapi.util.response.ApiResponse;
+import org.civichelpapi.civichelpapi.util.service.JwtUtil;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -26,7 +26,6 @@ public class CitizenReportController {
 
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    @PreAuthorize("hasRole('CITIZEN')")
     public ResponseEntity<?> createReport(@RequestPart("data") @Valid ReportRequest request,
                                           @RequestPart(value = "images", required = false) List<MultipartFile> images
     ) {
@@ -38,7 +37,7 @@ public class CitizenReportController {
         );
     }
 
-    @GetMapping("/my")
+    @GetMapping
     public ResponseEntity<?> getMyReports() {
         Long userId = JwtUtil.getUserIdFromContext();
 
